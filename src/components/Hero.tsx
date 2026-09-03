@@ -24,18 +24,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenEntry, onSelectCategory }) => 
       id="hero"
       className="relative w-full overflow-hidden bg-[#070709] pt-0"
     >
-      {/* Hero Visual Container - Unobstructed full view with subtle cinematic fade-in */}
+      {/* Hero Visual Container - Full width edge-to-edge view */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.995 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full max-w-[1600px] mx-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="relative w-full"
       >
         <img
           src={heroImg}
           alt="NEWTONE 2027 Main Visual"
           referrerPolicy="no-referrer"
-          className="w-full h-auto block select-none object-cover object-center"
+          className="w-full h-auto block select-none"
         />
       </motion.div>
 
