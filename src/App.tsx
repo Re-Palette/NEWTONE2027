@@ -14,8 +14,6 @@ import { Hero } from './components/Hero';
 import { AboutSection } from './components/AboutSection';
 import { BrandsSection } from './components/BrandsSection';
 import { BrandDetailModal } from './components/BrandDetailModal';
-import { ToneFinder } from './components/ToneFinder';
-import { ProgramSection } from './components/ProgramSection';
 import { AccessSection } from './components/AccessSection';
 import { NewsSection } from './components/NewsSection';
 import { EntryModal } from './components/EntryModal';
@@ -42,11 +40,6 @@ export default function App() {
     setEntryModalOpen(true);
   };
 
-  const handleOpenEntryWithTone = (toneName: string) => {
-    setSelectedToneForPass(toneName);
-    setEntryModalOpen(true);
-  };
-
   const handleSelectCategoryFromHero = (category: string) => {
     setActiveCategory(category as Category);
   };
@@ -56,18 +49,18 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-[#F0F0F0] flex flex-col selection:bg-pink-500 selection:text-white font-zen antialiased relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#F8F9FA] text-[#18181B] flex flex-col selection:bg-zinc-900 selection:text-white font-zen antialiased relative overflow-x-hidden">
       {/* Background Architectural Grid & Geometric Accents */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] border-[0.5px] border-white/5 rounded-full" />
-        <div className="absolute top-1/3 -right-48 w-[700px] h-[700px] border-[0.5px] border-white/5 rounded-full" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 border-[0.5px] border-white/5 rotate-45" />
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] border-[0.5px] border-zinc-200/60 rounded-full" />
+        <div className="absolute top-1/3 -right-48 w-[700px] h-[700px] border-[0.5px] border-zinc-200/60 rounded-full" />
+        <div className="absolute bottom-10 left-10 w-96 h-96 border-[0.5px] border-zinc-200/60 rotate-45" />
       </div>
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-[#141414] text-[#F0F0F0] shadow-2xl border border-pink-500/50 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300">
-          <CheckCircle2 className="w-5 h-5 text-pink-400 flex-shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-white text-zinc-900 shadow-2xl border border-zinc-200/90 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300">
+          <CheckCircle2 className="w-5 h-5 text-zinc-900 flex-shrink-0" />
           <span className="text-xs sm:text-sm font-semibold tracking-wide">{toastMessage}</span>
         </div>
       )}
@@ -89,10 +82,6 @@ export default function App() {
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
         />
-
-        <ToneFinder onOpenEntryWithTone={handleOpenEntryWithTone} />
-
-        <ProgramSection />
 
         <AccessSection />
 

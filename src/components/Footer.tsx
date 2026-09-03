@@ -26,31 +26,31 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
   ];
 
   return (
-    <footer id="contact" className="relative bg-[#080808] text-[#F0F0F0] pt-20 pb-12 border-t border-white/10 overflow-hidden">
+    <footer id="contact" className="relative bg-[#F8F9FA] text-zinc-900 pt-20 pb-12 border-t border-zinc-200 overflow-hidden">
       {/* Background architectural line */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-white/20" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-zinc-200" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Top Call to Action Banner with Bold Typography */}
-        <div className="relative rounded-3xl p-8 sm:p-12 mb-16 overflow-hidden bg-white/[0.02] border border-white/10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
+        <div className="relative rounded-3xl p-8 sm:p-12 mb-16 overflow-hidden bg-white border border-zinc-200/80 shadow-[0_4px_25px_rgba(0,0,0,0.04)] text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
           <div className="space-y-2 max-w-xl">
-            <div className="flex items-center gap-2 text-[10px] text-pink-400 font-mono tracking-[0.3em] uppercase font-bold justify-center sm:justify-start">
-              <span className="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
+            <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-mono tracking-[0.3em] uppercase font-bold justify-center sm:justify-start">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 shadow-[0_0_8px_rgba(0,0,0,0.2)]"></span>
               RESERVATION & ENTRY
             </div>
-            <h3 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[0.85] tracking-tighter-extra uppercase text-[#F0F0F0]">
+            <h3 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[0.85] tracking-tighter-extra uppercase text-zinc-950">
               BE THE FIRST TO <br />
               <span className="text-outline">WITNESS 2027</span>
             </h3>
-            <p className="font-zen text-xs sm:text-sm text-white/70 font-light">
+            <p className="font-zen text-xs sm:text-sm text-zinc-600 font-light">
               学生起業家たちが切り拓く、新しい美の地平。事前入場無料登録受付中。
             </p>
           </div>
 
           <button
             onClick={onOpenEntry}
-            className="flex-shrink-0 px-8 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] bg-[#F0F0F0] text-[#080808] hover:bg-pink-500 hover:text-white shadow-[0_0_25px_rgba(255,255,255,0.2)] flex items-center gap-2 hover:scale-105 transition-all"
+            className="flex-shrink-0 px-8 py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] bg-zinc-950 text-white hover:bg-black shadow-[0_2px_15px_rgba(0,0,0,0.15)] flex items-center gap-2 hover:scale-105 transition-all"
           >
             無料事前登録はこちら
             <ArrowRight className="w-4 h-4" />
@@ -58,13 +58,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
         </div>
 
         {/* Sponsor Partners */}
-        <div className="mb-16 pb-12 border-b border-white/10 text-center">
-          <p className="text-[10px] font-mono text-white/50 tracking-[0.3em] uppercase mb-6 font-bold">
+        <div className="mb-16 pb-12 border-b border-zinc-200 text-center">
+          <p className="text-[10px] font-mono text-zinc-400 tracking-[0.3em] uppercase mb-6 font-bold">
             SUPPORTED BY & PARTNERS
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 opacity-60">
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 opacity-80">
             {sponsors.map((sp) => (
-              <span key={sp} className="font-cinzel text-xs sm:text-sm tracking-widest text-[#F0F0F0] font-bold hover:opacity-100 transition-opacity">
+              <span key={sp} className="font-cinzel text-xs sm:text-sm tracking-widest text-zinc-800 font-bold hover:text-zinc-950 transition-colors">
                 {sp}
               </span>
             ))}
@@ -77,26 +77,26 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
           {/* Brand Col */}
           <div className="md:col-span-5 space-y-4">
             <div>
-              <span className="font-bebas text-3xl sm:text-4xl font-black tracking-tighter-extra uppercase text-[#F0F0F0]">
+              <span className="font-bebas text-3xl sm:text-4xl font-black tracking-tighter-extra uppercase text-zinc-950">
                 NEWTONE
               </span>
-              <p className="font-mono text-[10px] text-pink-400 tracking-[0.3em] uppercase mt-0.5 font-bold">
+              <p className="font-mono text-[10px] text-zinc-500 tracking-[0.3em] uppercase mt-0.5 font-bold">
                 NEXT BEAUTY POPUP 2027
               </p>
             </div>
-            <p className="text-xs text-white/70 leading-relaxed max-w-sm font-light">
+            <p className="text-xs text-zinc-600 leading-relaxed max-w-sm font-light">
               学生起業家が生み出す、新しい美容のカタチ。美の常識をアップデートし、すべての人の自由な輝きを祝福するイベント。
             </p>
             
             {/* Social Icons */}
             <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-700 hover:text-zinc-950 flex items-center justify-center transition-colors">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-700 hover:text-zinc-950 flex items-center justify-center transition-colors">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-700 hover:text-zinc-950 flex items-center justify-center transition-colors">
                 <Youtube className="w-4 h-4" />
               </a>
             </div>
@@ -104,31 +104,29 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
 
           {/* Links Col */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="font-mono text-[10px] font-bold text-pink-400 tracking-[0.3em] uppercase">
+            <h4 className="font-mono text-[10px] font-bold text-zinc-900 tracking-[0.3em] uppercase">
               NAVIGATION
             </h4>
-            <ul className="space-y-2 text-xs text-white/75 font-zen">
-              <li><a href="#about" className="hover:text-white transition-colors">ABOUT (コンセプト)</a></li>
-              <li><a href="#program" className="hover:text-white transition-colors">PROGRAM (タイムテーブル)</a></li>
-              <li><a href="#brands" className="hover:text-white transition-colors">BRANDS (出展ブランド)</a></li>
-              <li><a href="#tone-test" className="hover:text-white transition-colors">TONE TEST (AI診断)</a></li>
-              <li><a href="#access" className="hover:text-white transition-colors">ACCESS & FAQ (会場・FAQ)</a></li>
-              <li><a href="#news" className="hover:text-white transition-colors">NEWS (お知らせ)</a></li>
+            <ul className="space-y-2 text-xs text-zinc-600 font-zen">
+              <li><a href="#about" className="hover:text-zinc-950 transition-colors">ABOUT (コンセプト)</a></li>
+              <li><a href="#brands" className="hover:text-zinc-950 transition-colors">BRANDS (出展ブランド)</a></li>
+              <li><a href="#access" className="hover:text-zinc-950 transition-colors">ACCESS & FAQ (会場・FAQ)</a></li>
+              <li><a href="#news" className="hover:text-zinc-950 transition-colors">NEWS (お知らせ)</a></li>
             </ul>
           </div>
 
           {/* Newsletter Col */}
           <div className="md:col-span-4 space-y-3">
-            <h4 className="font-mono text-[10px] font-bold text-pink-400 tracking-[0.3em] uppercase">
+            <h4 className="font-mono text-[10px] font-bold text-zinc-900 tracking-[0.3em] uppercase">
               NEWSLETTER
             </h4>
-            <p className="text-xs text-white/70 font-light">
+            <p className="text-xs text-zinc-600 font-light">
               最新の追加出展ブランド情報や限定優先チケット案内をお届けします。
             </p>
 
             {subscribed ? (
-              <div className="p-3 rounded-xl bg-white/10 text-white border border-white/20 text-xs flex items-center gap-2 font-zen">
-                <CheckCircle2 className="w-4 h-4 text-pink-400" />
+              <div className="p-3 rounded-xl bg-zinc-100 text-zinc-900 border border-zinc-200 text-xs flex items-center gap-2 font-zen">
+                <CheckCircle2 className="w-4 h-4 text-zinc-900" />
                 登録完了！最新情報をお送りします。
               </div>
             ) : (
@@ -139,18 +137,18 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
                   placeholder="メールアドレスを入力"
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-white/5 border border-white/15 text-xs text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-zinc-200 text-xs text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-zinc-900 transition-colors"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 rounded-xl bg-[#F0F0F0] text-[#080808] hover:bg-pink-500 hover:text-white text-xs font-bold transition-all"
+                  className="px-4 py-2.5 rounded-xl bg-zinc-950 text-white hover:bg-black text-xs font-bold transition-all shadow-sm"
                 >
                   <Send className="w-4 h-4" />
                 </button>
               </form>
             )}
 
-            <p className="text-[10px] text-white/40 font-light">
+            <p className="text-[10px] text-zinc-400 font-light">
               ※ スパムメールは一切送信いたしません。いつでも解除可能です。
             </p>
           </div>
@@ -158,12 +156,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenEntry }) => {
         </div>
 
         {/* Bottom Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-white/50 font-mono tracking-wider uppercase">
+        <div className="pt-8 border-t border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-zinc-400 font-mono tracking-wider uppercase">
           <p>© 2027 NEWTONE EXECUTIVE COMMITTEE. ALL RIGHTS RESERVED.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">PRIVACY POLICY</a>
-            <a href="#" className="hover:text-white transition-colors">TERMS OF SERVICE</a>
-            <a href="#" className="hover:text-white transition-colors">PRESS INQUIRY</a>
+            <a href="#" className="hover:text-zinc-950 transition-colors">PRIVACY POLICY</a>
+            <a href="#" className="hover:text-zinc-950 transition-colors">TERMS OF SERVICE</a>
+            <a href="#" className="hover:text-zinc-950 transition-colors">PRESS INQUIRY</a>
           </div>
         </div>
 

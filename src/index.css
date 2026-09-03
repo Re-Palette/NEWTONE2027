@@ -3,8 +3,8 @@
 @layer base {
   body {
     font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
-    background-color: #080808;
-    color: #F0F0F0;
+    background-color: #F8F9FA;
+    color: #18181B;
   }
 }
 
@@ -47,48 +47,36 @@
 }
 
 .text-outline {
-  -webkit-text-stroke: 1.5px #F0F0F0;
+  -webkit-text-stroke: 1.5px #18181B;
   color: transparent;
 }
 
 .text-outline-thick {
-  -webkit-text-stroke: 2.5px #F0F0F0;
-  color: transparent;
-}
-
-.text-outline-pink {
-  -webkit-text-stroke: 1.5px #ec4899;
+  -webkit-text-stroke: 2.5px #18181B;
   color: transparent;
 }
 
 .text-outline-subtle {
-  -webkit-text-stroke: 1px rgba(240, 240, 240, 0.4);
+  -webkit-text-stroke: 1px rgba(24, 24, 27, 0.25);
   color: transparent;
 }
 
-/* Custom text glow effects */
-.glow-text-pink {
-  text-shadow: 0 0 12px rgba(244, 63, 94, 0.7), 0 0 24px rgba(236, 72, 153, 0.5);
+/* Custom refined effects for light & luminous exhibition theme */
+.glow-card {
+  box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.05), 0 0 15px -2px rgba(226, 232, 240, 0.6);
 }
 
-.glow-text-white {
-  text-shadow: 0 0 16px rgba(255, 255, 255, 0.8), 0 0 32px rgba(216, 180, 254, 0.4);
-}
-
-.glow-text-cyan {
-  text-shadow: 0 0 12px rgba(6, 182, 212, 0.8), 0 0 24px rgba(14, 165, 233, 0.5);
-}
-
-.glow-box-pink {
-  box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.6), 0 0 10px -2px rgba(236, 72, 153, 0.4);
-}
-
-.glow-orb {
-  box-shadow: 0 0 35px 8px rgba(168, 85, 247, 0.5), inset 0 0 20px 4px rgba(236, 72, 153, 0.4);
+.glow-card-hover:hover {
+  box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.08), 0 0 20px -2px rgba(203, 213, 225, 0.7);
 }
 
 .hologram-border {
-  background: linear-gradient(135deg, rgba(236,72,153,0.6), rgba(168,85,247,0.3), rgba(56,189,248,0.6));
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(236, 72, 153, 0.2), rgba(56, 189, 248, 0.25));
+}
+
+.prism-badge {
+  background: linear-gradient(135deg, #F8FAFC, #EEF2F6);
+  border: 1px solid rgba(203, 213, 225, 0.8);
 }
 
 /* Subtle particle animation */
