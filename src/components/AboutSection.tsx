@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Sparkles, ShieldCheck, HeartHandshake, Zap, Compass, ArrowRight } from 'lucide-react';
 import manifestoRightWave from '../assets/images/manifesto_right_wave_1788405032147.jpg';
 
@@ -44,9 +45,9 @@ export const AboutSection: React.FC = () => {
 
   return (
     <section id="about" className="relative pt-12 sm:pt-16 pb-24 sm:pb-32 bg-[#FAF9F8] text-zinc-900 overflow-hidden border-t border-zinc-200/60">
-      {/* Prismatic ambient background orbs */}
-      <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-pink-200/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-20 right-1/4 w-[500px] h-[500px] bg-purple-200/25 rounded-full blur-3xl pointer-events-none" />
+      {/* Prismatic ambient background orbs with subtle float */}
+      <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-pink-200/25 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-20 right-1/4 w-[500px] h-[500px] bg-purple-200/25 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style={{ animationDelay: '2s' }} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -55,11 +56,15 @@ export const AboutSection: React.FC = () => {
           
           {/* Luminous Light Wave illuminating the right side of the header */}
           <div className="absolute -top-16 -bottom-16 -right-4 sm:-right-8 md:-right-12 lg:-right-20 w-full md:w-4/5 lg:w-3/4 pointer-events-none z-0 overflow-hidden flex items-center justify-end">
-            <img
+            <motion.img
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 0.85, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
               src={manifestoRightWave}
               alt="Luminous Spectrum Wave"
               referrerPolicy="no-referrer"
-              className="w-full h-full max-h-[600px] object-cover object-right select-none opacity-85"
+              className="w-full h-full max-h-[600px] object-cover object-right select-none"
             />
             {/* Smooth edge feathering for light canvas */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#FAF9F8] via-[#FAF9F8]/60 to-transparent w-2/5" />
@@ -67,9 +72,15 @@ export const AboutSection: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-[#FAF9F8] via-transparent to-[#FAF9F8]" />
           </div>
 
-          <div className="relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10"
+          >
             <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.35em] font-bold text-pink-600 mb-4 font-mono">
-              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 shadow-[0_0_8px_rgba(236,72,153,0.6)]"></span>
+              <span className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 shadow-[0_0_8px_rgba(236,72,153,0.6)] animate-ping"></span>
               ABOUT THE PROJECT
             </div>
             
@@ -87,11 +98,17 @@ export const AboutSection: React.FC = () => {
                 Z世代の情熱が切り拓く新しいビューティー・スタンダード。
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Story & Vision Section */}
-        <div className="rounded-3xl p-8 sm:p-12 lg:p-16 border border-zinc-200/80 bg-white shadow-[0_4px_25px_rgba(0,0,0,0.04)] mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-3xl p-8 sm:p-12 lg:p-16 border border-zinc-200/80 bg-white shadow-[0_4px_25px_rgba(0,0,0,0.04)] mb-20"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             
             {/* Left Column: Core Message & Event Details */}
@@ -115,7 +132,7 @@ export const AboutSection: React.FC = () => {
                   <span className="text-zinc-400">📍</span> WITH HARAJUKU HALL 3F
                 </div>
                 <div className="px-5 py-3 rounded-2xl bg-zinc-950 border border-zinc-900 text-xs text-white font-bold tracking-wider flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-zinc-300" /> 入場無料 (事前優先予約制)
+                  <Sparkles className="w-3.5 h-3.5 text-pink-400" /> 入場無料 (事前優先予約制)
                 </div>
               </div>
             </div>
@@ -134,16 +151,21 @@ export const AboutSection: React.FC = () => {
             </div>
 
           </div>
-        </div>
+        </motion.div>
 
-        {/* 4 Core Pillars Grid with Prismatic Color Accents */}
+        {/* 4 Core Pillars Grid with Prismatic Color Accents & Staggered Motion */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pillars.map((pillar) => {
+          {pillars.map((pillar, index) => {
             const Icon = pillar.icon;
             return (
-              <div
+              <motion.div
                 key={pillar.title}
-                className={`relative rounded-3xl p-6 sm:p-7 bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_35px_rgba(236,72,153,0.12)] ${pillar.hoverBorder} transition-all duration-300 group hover:-translate-y-1 flex flex-col justify-between`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, transition: { duration: 0.25 } }}
+                className={`relative rounded-3xl p-6 sm:p-7 bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_35px_rgba(236,72,153,0.12)] ${pillar.hoverBorder} transition-colors duration-300 group flex flex-col justify-between`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -170,7 +192,7 @@ export const AboutSection: React.FC = () => {
                   <span>PILLAR {pillar.num}</span>
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
