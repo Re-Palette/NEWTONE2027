@@ -1,0 +1,6 @@
+{
+  "name": "NEWTONE 2027 - Next Beauty POPUP",
+  "description": "次世代の美容ブランドPOPUPイベント『NEWTONE 2027』公式ブランディングページ。学生起業家が生み出す、新しい美容のカタチ。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
