@@ -4,10 +4,14 @@ import { gsap, useSceneMotion } from './motion';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
+/** カードごとに光の球の表情を少しずつ変える */
+const orbStyle = (i: number) =>
+  ({ ['--ox' as string]: `${[28, 70, 40, 76, 22, 58][i % 6]}%`, ['--oy' as string]: `${[72, 30, 80, 66, 36, 24][i % 6]}%` }) as React.CSSProperties;
+
 const BrandCard: React.FC<{ brand: Brand; index: number }> = ({ brand, index }) => {
   const inner = (
     <>
-      {brand.image ? <img className="brand-card__img" src={brand.image} alt={`${brand.name} のプロダクト`} loading="lazy" /> : <div className="brand-card__orb" style={{ ['--orb-rot' as string]: `${index * 52}deg` }} aria-hidden="true" />}
+      {brand.image ? <img className="brand-card__img" src={brand.image} alt={`${brand.name} のプロダクト`} loading="lazy" /> : <div className="brand-card__orb" style={orbStyle(index)} aria-hidden="true" />}
       <div className="brand-card__shade" aria-hidden="true" />
       <span className="brand-card__no">{pad(index + 1)}</span>
       {brand.logo && <img className="brand-card__logo" src={brand.logo} alt={`${brand.name} ロゴ`} loading="lazy" />}
@@ -29,7 +33,7 @@ const BrandCard: React.FC<{ brand: Brand; index: number }> = ({ brand, index }) 
 
 const PlaceholderCard: React.FC<{ index: number }> = ({ index }) => (
   <article className="brand-card brand-card--soon" aria-label={`参加ブランド ${pad(index + 1)}：近日公開`}>
-    <div className="brand-card__orb" style={{ ['--orb-rot' as string]: `${index * 64}deg` }} aria-hidden="true" />
+    <div className="brand-card__orb" style={orbStyle(index)} aria-hidden="true" />
     <div className="brand-card__shade" aria-hidden="true" />
     <span className="brand-card__no">{pad(index + 1)}</span>
     <div className="brand-card__body">
@@ -48,7 +52,7 @@ export const BrandsScene: React.FC = () => {
     gsap.fromTo(
       '.brands__head > *',
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.brands__head', start: 'top 90%', end: 'top 55%', scrub: 0.5 } },
+      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.brands__head', start: 'top 90%', end: 'top 55%', scrub: 0.3 } },
     );
 
     const track = scope.querySelector<HTMLElement>('.brands__track');
@@ -70,7 +74,7 @@ export const BrandsScene: React.FC = () => {
         start: 'top top',
         end: () => `+=${Math.max(distance(), window.innerHeight * 0.6)}`,
         pin: true,
-        scrub: 0.7,
+        scrub: 0.3,
         invalidateOnRefresh: true,
       },
     });

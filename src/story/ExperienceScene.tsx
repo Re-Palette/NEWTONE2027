@@ -15,7 +15,7 @@ export const ExperienceScene: React.FC = () => {
         gsap.fromTo(
           item.querySelector('.exp__item-word'),
           { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: 0.5 } },
+          { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: 0.3 } },
         );
       });
       return;
@@ -25,13 +25,14 @@ export const ExperienceScene: React.FC = () => {
     const copies = gsap.utils.toArray<HTMLElement>('.exp__copy');
     const nums = gsap.utils.toArray<HTMLElement>('.exp__counter b');
     const items = gsap.utils.toArray<HTMLElement>('.exp__list li');
+    const orbs = gsap.utils.toArray<HTMLElement>('.exp__orb');
 
     gsap.set([...words.slice(1), ...copies.slice(1), ...nums.slice(1)], { autoAlpha: 0 });
     gsap.set(items[0], { opacity: 1, color: '#ff4fa3', x: -10 });
 
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
     });
     tl.fromTo('.exp__head', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 0);
 
@@ -47,7 +48,8 @@ export const ExperienceScene: React.FC = () => {
         .fromTo(nums[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1, immediateRender: false }, at + 0.2)
         .to(items[i - 1], { opacity: 0.5, color: '#ffffff', x: 0, duration: 0.3 }, at)
         .to(items[i], { opacity: 1, color: '#ff4fa3', x: -10, duration: 0.3 }, at)
-        .to('.exp__orb', { '--orb': cat.hue, duration: 0.6 }, at);
+        .to(orbs[i - 1], { opacity: 0, duration: 0.6 }, at)
+        .fromTo(orbs[i], { opacity: 0 }, { opacity: 1, duration: 0.6, immediateRender: false }, at);
     });
     tl.to({}, { duration: 0.6 });
   });
@@ -56,7 +58,9 @@ export const ExperienceScene: React.FC = () => {
     <section id="program" ref={ref} className="scene scene--pin experience" aria-labelledby="exp-title">
       <div className="scene__sticky">
         <div className="scene__bg" aria-hidden="true">
-          <div className="exp__orb" style={{ ['--orb' as string]: EXPERIENCE_CATEGORIES[0].hue }} />
+          {EXPERIENCE_CATEGORIES.map((c) => (
+            <div key={c.key} className="exp__orb" style={{ ['--orb' as string]: c.hue }} />
+          ))}
         </div>
 
         {/* Desktop：ピン留めして1カテゴリーずつ切り替え */}

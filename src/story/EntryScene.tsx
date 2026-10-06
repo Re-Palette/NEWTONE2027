@@ -17,7 +17,7 @@ export const EntryScene: React.FC = () => {
     gsap
       .timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: '.entry__inner', start: 'top 75%', end: 'center 50%', scrub: 0.6 },
+        scrollTrigger: { trigger: '.entry__inner', start: 'top 75%', end: 'center 50%', scrub: 0.3 },
       })
       .fromTo('.entry .wave', { xPercent: 12, opacity: 0 }, { xPercent: 0, opacity: 0.4, duration: 1 }, 0)
       .fromTo('.entry .eyebrow', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.2 }, 0)
@@ -28,7 +28,7 @@ export const EntryScene: React.FC = () => {
     gsap.fromTo(
       '.info__col',
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.info', start: 'top 92%', end: 'top 65%', scrub: 0.5 } },
+      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.info', start: 'top 92%', end: 'top 65%', scrub: 0.3 } },
     );
   });
 

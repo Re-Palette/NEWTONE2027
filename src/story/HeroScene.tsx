@@ -1,14 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import heroImg from '../assets/story/hero.webp';
+import heroImg2x from '../assets/story/hero@2x.webp';
 import heroBlur from '../assets/story/hero-blur.webp';
 import titleMask from '../assets/story/hero-title-mask.png';
 import sliceLeft from '../assets/story/hero-slice-left-copy.webp';
 import sliceRight from '../assets/story/hero-slice-right-copy.webp';
 import sliceCircle from '../assets/story/hero-slice-circle.webp';
-import waveA from '../assets/story/wave-a.webp';
+import heroLights from '../assets/story/hero-lights.webp';
 import { EXPERIENCE_CATEGORIES } from '../config/site';
 import { Particles } from './parts';
 import { gsap, useSceneMotion } from './motion';
+
+/** 高解像度ディスプレイ・大画面では2倍画像を使う */
+const heroSrcSet = `${heroImg} 1672w, ${heroImg2x} 3344w`;
 
 const maskStyle: React.CSSProperties = {
   WebkitMaskImage: `url(${titleMask})`,
@@ -54,12 +58,12 @@ export const HeroScene: React.FC = () => {
       // 進行度0 = 参考画像そのもの。スクロールに合わせて光が動き出す
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.6 },
+        scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
       });
-      tl.to('.hero__desk .hero__media', { scale: 1.09, yPercent: -2.5, duration: 1 }, 0)
-        .fromTo('.hero__desk .hero__lights', { opacity: 0, xPercent: -6, yPercent: 4 }, { opacity: 0.6, xPercent: 5, yPercent: -6, duration: 0.7 }, 0)
-        .fromTo('.hero__desk .hero__sheen', { backgroundPosition: '0% 0' }, { backgroundPosition: '100% 0', duration: 0.55 }, 0.04)
-        .fromTo('.hero__desk .hero__glow', { opacity: 0 }, { opacity: 0.35, duration: 0.25, yoyo: true, repeat: 1 }, 0.18)
+      tl.to('.hero__desk .hero__media', { scale: 1.06, yPercent: -2.5, duration: 1 }, 0)
+        .fromTo('.hero__desk .hero__lights', { opacity: 0, xPercent: -6, yPercent: 4 }, { opacity: 0.75, xPercent: 5, yPercent: -6, duration: 0.7 }, 0)
+        .fromTo('.hero__desk .hero__sheen-band', { xPercent: 0 }, { xPercent: -68.75, duration: 0.55 }, 0.04)
+        .fromTo('.hero__desk .hero__glow', { opacity: 0 }, { opacity: 0.3, duration: 0.25, yoyo: true, repeat: 1 }, 0.18)
         .fromTo('.hero__desk .particles--near', { opacity: 0, yPercent: 6 }, { opacity: 1, yPercent: -26, duration: 1 }, 0)
         .fromTo('.hero__desk .particles--far', { opacity: 0, yPercent: 2 }, { opacity: 0.8, yPercent: -10, duration: 1 }, 0)
         .to('.hero__desk .hero__scroll', { opacity: 0, y: 12, duration: 0.08 }, 0)
@@ -71,11 +75,11 @@ export const HeroScene: React.FC = () => {
     // スマートフォン：ピン留めせず、画面外へ抜ける間だけ穏やかに動かす
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: 0.5 },
+      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: 0.3 },
     });
     tl.to('.poster__center-media', { scale: 1.1, yPercent: 6 }, 0)
-      .fromTo('.hero__poster .hero__sheen', { backgroundPosition: '0% 0' }, { backgroundPosition: '100% 0' }, 0)
-      .fromTo('.hero__poster .hero__lights', { opacity: 0 }, { opacity: 0.5 }, 0)
+      .fromTo('.hero__poster .hero__sheen-band', { xPercent: 0 }, { xPercent: -68.75 }, 0)
+      .fromTo('.hero__poster .hero__lights', { opacity: 0 }, { opacity: 0.65 }, 0)
       .to('.poster__top', { yPercent: -18 }, 0)
       .to('.poster__bottom', { yPercent: -10 }, 0)
       .to('.poster__scroll', { opacity: 0 }, 0);
@@ -93,6 +97,8 @@ export const HeroScene: React.FC = () => {
               <img
                 className="hero__img"
                 src={heroImg}
+                srcSet={heroSrcSet}
+                sizes="100vw"
                 width={1672}
                 height={941}
                 alt="光と髪がきらめく女性のビジュアルと、NEWTONE 2027 The Next Beauty. のタイトル。美しさは、わたしたちがつくる未来。美の常識を、アップデートしよう。"
@@ -101,9 +107,11 @@ export const HeroScene: React.FC = () => {
                 draggable={false}
               />
               <div className="hero__glow" style={maskStyle} aria-hidden="true" />
-              <div className="hero__sheen" style={maskStyle} aria-hidden="true" />
+              <div className="hero__sheen" style={maskStyle} aria-hidden="true">
+                <div className="hero__sheen-band" />
+              </div>
             </div>
-            <div className="hero__lights" style={{ backgroundImage: `url(${waveA})` }} aria-hidden="true" />
+            <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
             <Particles count={26} seed={7} className="particles particles--far" />
             <Particles count={14} seed={31} className="particles particles--near" />
           </div>
@@ -126,9 +134,11 @@ export const HeroScene: React.FC = () => {
             <div className="poster__center">
               <div className="poster__center-media">
                 <div className="poster__center-stage">
-                  <img src={heroImg} alt="" width={1672} height={941} decoding="async" draggable={false} />
-                  <div className="hero__sheen" style={maskStyle} aria-hidden="true" />
-                  <div className="hero__lights" style={{ backgroundImage: `url(${waveA})` }} aria-hidden="true" />
+                  <img src={heroImg} srcSet={heroSrcSet} sizes="165vw" alt="" width={1672} height={941} decoding="async" draggable={false} />
+                  <div className="hero__sheen" style={maskStyle} aria-hidden="true">
+                <div className="hero__sheen-band" />
+              </div>
+                  <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
                 </div>
               </div>
             </div>

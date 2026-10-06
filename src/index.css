@@ -86,7 +86,6 @@ body {
 
 .char {
   display: inline-block;
-  will-change: transform, opacity;
 }
 
 .eyebrow {
@@ -175,7 +174,7 @@ body {
   z-index: 60;
   height: var(--header-h);
   color: #fff;
-  transition: background-color 0.5s ease, backdrop-filter 0.5s ease;
+  transition: background 0.5s ease;
 }
 
 .site-header::after {
@@ -190,9 +189,7 @@ body {
 }
 
 .site-header.is-solid {
-  background: rgba(9, 13, 52, 0.55);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
+  background: linear-gradient(180deg, rgba(9, 13, 52, 0.9), rgba(9, 13, 52, 0.78));
 }
 
 .site-logo {
@@ -448,6 +445,11 @@ html.is-motion .hero {
   will-change: transform;
 }
 
+.hero__img,
+.poster__center-stage img {
+  object-fit: cover;
+}
+
 .hero__img {
   display: block;
   width: 100%;
@@ -458,6 +460,18 @@ html.is-motion .hero {
 
 /* NEWTONE / 2027 の文字部分だけに走るホログラムの光沢 */
 .hero__sheen {
+  --sheen: linear-gradient(
+    104deg,
+    transparent 0%,
+    transparent 36%,
+    rgba(255, 120, 196, 0.32) 43%,
+    rgba(190, 160, 255, 0.4) 48%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(130, 170, 255, 0.38) 53%,
+    rgba(255, 120, 196, 0.24) 58%,
+    transparent 64%,
+    transparent 100%
+  );
   position: absolute;
   left: 21.232%;
   top: 38.789%;
@@ -467,22 +481,19 @@ html.is-motion .hero {
   mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  background-image: linear-gradient(
-    104deg,
-    transparent 0%,
-    transparent 36%,
-    rgba(255, 140, 205, 0.55) 43%,
-    rgba(214, 190, 255, 0.7) 48%,
-    rgba(255, 255, 255, 0.9) 50%,
-    rgba(150, 190, 255, 0.65) 53%,
-    rgba(255, 140, 205, 0.4) 58%,
-    transparent 64%,
-    transparent 100%
-  );
-  background-size: 320% 100%;
-  background-position: 0% 0;
-  mix-blend-mode: multiply;
+  overflow: hidden;
   pointer-events: none;
+}
+
+/* 光の帯は transform だけで動かす（マスク内の再描画を発生させない） */
+.hero__sheen-band {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320%;
+  height: 100%;
+  background: var(--sheen);
+  will-change: transform;
 }
 
 .hero__glow {
@@ -493,10 +504,9 @@ html.is-motion .hero {
   height: 45.165%;
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
-  background: radial-gradient(60% 70% at 50% 45%, rgba(255, 255, 255, 0.9), rgba(214, 190, 255, 0.5) 60%, transparent 85%);
-  mix-blend-mode: screen;
+  background: radial-gradient(60% 70% at 50% 45%, rgba(255, 255, 255, 0.7), rgba(214, 190, 255, 0.35) 60%, transparent 85%);
   opacity: 0;
-  filter: blur(6px);
+  will-change: opacity;
   pointer-events: none;
 }
 
@@ -504,11 +514,8 @@ html.is-motion .hero {
   position: absolute;
   inset: -12% -8%;
   background-position: center;
-  background-size: cover;
-  mix-blend-mode: screen;
+  background-size: 100% 100%;
   opacity: 0;
-  -webkit-mask-image: radial-gradient(ellipse 42% 40% at 52% 36%, transparent 0%, transparent 35%, #000 80%);
-  mask-image: radial-gradient(ellipse 42% 40% at 52% 36%, transparent 0%, transparent 35%, #000 80%);
   will-change: transform, opacity;
   pointer-events: none;
 }
@@ -525,12 +532,12 @@ html.is-motion .hero {
   position: absolute;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 170, 225, 0.55) 35%, transparent 70%);
-  mix-blend-mode: screen;
 }
 
 .hero__veil {
   position: absolute;
   inset: 0;
+  will-change: opacity;
   background: linear-gradient(180deg, rgba(13, 20, 82, 0.35) 0%, rgba(13, 20, 82, 0.85) 45%, var(--c-navy) 85%);
   opacity: 0;
   pointer-events: none;
@@ -812,12 +819,10 @@ html.is-motion .scene--pin > .scene__sticky {
 }
 
 .wave {
+  /* 光の画像は黒背景→透明へ変換済み（screen合成やマスクを使わず、通常合成で軽く描画） */
   position: absolute;
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
-  mix-blend-mode: screen;
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 55%, transparent 100%);
   will-change: transform;
   pointer-events: none;
 }
@@ -839,13 +844,6 @@ html.is-motion .concept {
 .concept .wave {
   inset: 18% -20% -10% 10%;
   opacity: 0.55;
-}
-
-/* セクション境界で光が途切れて見えないよう上下をフェード */
-.concept .scene__bg,
-.entry .wave {
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
 }
 
 .concept {
@@ -953,10 +951,10 @@ html.is-motion .nextbeauty {
 }
 
 .blob {
+  /* filter: blur の代わりに放射グラデーションでぼかす（スクロール中の再描画を避ける） */
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.75;
+  background: radial-gradient(circle, var(--blob) 0%, color-mix(in srgb, var(--blob) 45%, transparent) 35%, transparent 70%);
   will-change: transform;
 }
 
@@ -1126,9 +1124,7 @@ html.is-motion .brands__viewport {
   overflow: hidden;
   scroll-snap-align: center;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03));
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  background: linear-gradient(160deg, rgba(64, 70, 170, 0.55), rgba(22, 27, 98, 0.75));
   box-shadow: 0 30px 80px rgba(4, 6, 30, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   color: #fff;
   text-decoration: none;
@@ -1149,15 +1145,14 @@ html.is-motion .brand-card {
   left: 13%;
   top: 12%;
   border-radius: 50%;
+  /* 参考ビジュアル左下の円形グラフィックのような、透明感のある光の球 */
   background:
-    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85), transparent 22%),
-    radial-gradient(circle at 50% 50%, transparent 52%, rgba(255, 255, 255, 0.6) 68%, transparent 71%),
-    conic-gradient(from var(--orb-rot, 0deg), #ff4fa3, #a35cf0, #4f6dff, #bdb8f6, #ff4fa3);
-  opacity: 0.85;
-  box-shadow: 0 0 80px rgba(196, 90, 233, 0.45);
-  filter: blur(10px) saturate(1.15);
-  -webkit-mask-image: radial-gradient(circle, #000 66%, transparent 71%);
-  mask-image: radial-gradient(circle, #000 66%, transparent 71%);
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.75), transparent 24%),
+    radial-gradient(circle at var(--ox, 30%) var(--oy, 70%), rgba(255, 79, 163, 0.95), transparent 55%),
+    radial-gradient(circle at calc(100% - var(--ox, 30%)) calc(100% - var(--oy, 70%)), rgba(79, 109, 255, 0.95), transparent 55%),
+    radial-gradient(circle at 50% 50%, rgba(163, 92, 240, 0.9), rgba(60, 40, 160, 0.9) 70%);
+  box-shadow: 0 0 60px rgba(196, 90, 233, 0.4), inset 0 0 30px rgba(255, 255, 255, 0.35), inset 0 0 0 1.5px rgba(255, 255, 255, 0.45);
+  opacity: 0.9;
 }
 
 .brand-card__img {
@@ -1270,12 +1265,16 @@ html.is-motion .experience {
   top: 54%;
   width: min(62vw, 78vh);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%);
+  margin: calc(min(62vw, 78vh) / -2) 0 0 calc(min(62vw, 78vh) / -2);
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, var(--orb, #ff4fa3) 0%, transparent 62%);
-  opacity: 0.55;
-  filter: blur(40px);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--orb) 60%, transparent) 0%, color-mix(in srgb, var(--orb) 22%, transparent) 38%, transparent 66%);
+  opacity: 0;
   pointer-events: none;
+  will-change: opacity;
+}
+
+.exp__orb:first-child {
+  opacity: 1;
 }
 
 .exp__desk {
