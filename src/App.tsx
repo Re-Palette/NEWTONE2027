@@ -3,108 +3,44 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState } from 'react';
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { AboutSection } from './components/AboutSection';
-import { BrandsSection } from './components/BrandsSection';
-import { BrandDetailModal } from './components/BrandDetailModal';
-import { AccessSection } from './components/AccessSection';
-import { NewsSection } from './components/NewsSection';
-import { EntryModal } from './components/EntryModal';
-import { Footer } from './components/Footer';
-import { BrandItem, Category } from './types';
-import { CheckCircle2 } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { SiteHeader } from './story/SiteHeader';
+import { HeroScene } from './story/HeroScene';
+import { ConceptScene } from './story/ConceptScene';
+import { NextBeautyScene } from './story/NextBeautyScene';
+import { BrandsScene } from './story/BrandsScene';
+import { ExperienceScene } from './story/ExperienceScene';
+import { EntryScene } from './story/EntryScene';
+import { ScrollTrigger, useSmoothScroll } from './story/motion';
 
 export default function App() {
-  const [entryModalOpen, setEntryModalOpen] = useState(false);
-  const [selectedToneForPass, setSelectedToneForPass] = useState<string | undefined>(undefined);
-  const [selectedBrand, setSelectedBrand] = useState<BrandItem | null>(null);
-  const [activeCategory, setActiveCategory] = useState<Category>('ALL');
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  useSmoothScroll();
 
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 4000);
-  };
-
-  const handleOpenEntry = () => {
-    setSelectedToneForPass(undefined);
-    setEntryModalOpen(true);
-  };
-
-  const handleSelectCategoryFromHero = (category: string) => {
-    setActiveCategory(category as Category);
-  };
-
-  const handleReserveSample = (brandName: string) => {
-    showToast(`「${brandName}」の限定無料サンプル引換券を事前確保しました！`);
-  };
+  // フォント・画像の読み込みでレイアウトが変わったら、スクロール位置の計算をやり直す
+  useEffect(() => {
+    const refresh = () => ScrollTrigger.refresh();
+    document.fonts?.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    // bfcache から戻ったとき（戻る・進む）にも位置を再計算
+    const onShow = (e: PageTransitionEvent) => e.persisted && refresh();
+    window.addEventListener('pageshow', onShow);
+    return () => {
+      window.removeEventListener('load', refresh);
+      window.removeEventListener('pageshow', onShow);
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-[#18181B] flex flex-col selection:bg-zinc-900 selection:text-white font-zen antialiased relative overflow-x-hidden">
-      {/* Background Architectural Grid & Geometric Accents */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] border-[0.5px] border-zinc-200/60 rounded-full" />
-        <div className="absolute top-1/3 -right-48 w-[700px] h-[700px] border-[0.5px] border-zinc-200/60 rounded-full" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 border-[0.5px] border-zinc-200/60 rotate-45" />
-      </div>
-
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-white text-zinc-900 shadow-2xl border border-zinc-200/90 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300">
-          <CheckCircle2 className="w-5 h-5 text-zinc-900 flex-shrink-0" />
-          <span className="text-xs sm:text-sm font-semibold tracking-wide">{toastMessage}</span>
-        </div>
-      )}
-
-      {/* Transparent Sticky/Fixed Top Bar */}
-      <Header onOpenEntry={handleOpenEntry} />
-
-      {/* Hero Section */}
-      <main className="flex-1 relative z-10">
-        <Hero
-          onOpenEntry={handleOpenEntry}
-          onSelectCategory={handleSelectCategoryFromHero}
-        />
-
-        <AboutSection />
-
-        <BrandsSection
-          onSelectBrand={(brand) => setSelectedBrand(brand)}
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
-
-        <AccessSection />
-
-        <NewsSection />
+    <>
+      <SiteHeader />
+      <main>
+        <HeroScene />
+        <ConceptScene />
+        <NextBeautyScene />
+        <BrandsScene />
+        <ExperienceScene />
+        <EntryScene />
       </main>
-
-      {/* Footer */}
-      <Footer onOpenEntry={handleOpenEntry} />
-
-      {/* Brand Details Modal */}
-      <BrandDetailModal
-        brand={selectedBrand}
-        onClose={() => setSelectedBrand(null)}
-        onReserveSample={handleReserveSample}
-      />
-
-      {/* Event Ticket & VIP Pass Modal */}
-      <EntryModal
-        isOpen={entryModalOpen}
-        onClose={() => setEntryModalOpen(false)}
-        initialTone={selectedToneForPass}
-      />
-    </div>
+    </>
   );
 }
-

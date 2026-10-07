@@ -1,21 +1,32 @@
 <!doctype html>
-<html lang="ja" class="scroll-smooth">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEWTONE 2027 - Next Beauty POPUP</title>
-    <meta name="description" content="次世代の美容ブランドPOPUPイベント『NEWTONE 2027』公式ブランディングページ。学生起業家が生み出す、新しい美容のカタチ。" />
-    <meta property="og:title" content="NEWTONE 2027 - Next Beauty POPUP" />
-    <meta property="og:description" content="次世代の美容ブランドPOPUPイベント『NEWTONE 2027』公式ブランディングページ。美しさは、わたしたちがつくる未来。" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1452" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%230d1452%22/%3E%3Ctext x=%2232%22 y=%2245%22 font-family=%22Georgia,serif%22 font-size=%2238%22 fill=%22%23fff%22 text-anchor=%22middle%22%3EN%3C/text%3E%3C/svg%3E" />
+    <title>NEWTONE 2027 — 次世代の美容ブランドPOPUP</title>
+    <meta name="description" content="次世代の美容ブランドPOPUP『NEWTONE 2027』。美しさは、わたしたちがつくる未来。学生起業家が生み出す、新しい美容のカタチ。" />
+    <meta property="og:title" content="NEWTONE 2027 — The Next Beauty." />
+    <meta property="og:description" content="次世代の美容ブランドPOPUP。美しさは、わたしたちがつくる未来。" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@600;700&family=Cinzel:wght@500;600;700;800&family=Kaushan+Script&family=Noto+Sans+JP:wght@300;400;500;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&family=Syne:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+      // 長いピン留め演出は「横長の画面」かつ「視差効果を減らす設定がオフ」のときだけ有効にする
+      (function () {
+        var q = window.matchMedia('(min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference)');
+        var root = document.documentElement;
+        function sync() { root.classList.toggle('is-motion', q.matches); }
+        sync();
+        q.addEventListener ? q.addEventListener('change', sync) : q.addListener(sync);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@400;600&family=Jost:wght@400;500;600&family=Kaushan+Script&family=Shippori+Mincho:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
   </head>
-  <body class="bg-[#F8F9FA] text-[#18181B] selection:bg-zinc-900 selection:text-white antialiased overflow-x-hidden">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
