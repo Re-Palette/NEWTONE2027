@@ -12,7 +12,7 @@ export const NextBeautyScene: React.FC = () => {
     gsap
       .timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: ref.current, start: 'top bottom', end: desktop ? 'top top' : 'top 15%', scrub: 0.3 },
+        scrollTrigger: { trigger: ref.current, start: 'top bottom', end: desktop ? 'top top' : 'top 15%', scrub: true },
       })
       .fromTo('.nb__big--a', { xPercent: 28 }, { xPercent: 0 }, 0)
       .fromTo('.nb__big--b', { xPercent: -28 }, { xPercent: 0 }, 0)
@@ -20,13 +20,13 @@ export const NextBeautyScene: React.FC = () => {
 
     if (!desktop) {
       gsap
-        .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.nb__script', start: 'top 90%', end: 'top 50%', scrub: 0.3 } })
+        .timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.nb__script', start: 'top 90%', end: 'top 50%', scrub: true } })
         .fromTo('.nb__script', { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% 0% -20% 0)' });
       gsap.utils.toArray<HTMLElement>('.nb__copy').forEach((copy) => {
         gsap.fromTo(
           copy.querySelectorAll('.char'),
           { opacity: 0, yPercent: 50 },
-          { opacity: 1, yPercent: 0, stagger: 0.03, ease: 'none', scrollTrigger: { trigger: copy, start: 'top 85%', end: 'center 55%', scrub: 0.3 } },
+          { opacity: 1, yPercent: 0, stagger: 0.03, ease: 'none', scrollTrigger: { trigger: copy, start: 'top 85%', end: 'center 55%', scrub: true } },
         );
       });
       return;
@@ -34,7 +34,7 @@ export const NextBeautyScene: React.FC = () => {
 
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
+      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: true },
     });
     tl.fromTo('.nb__script', { clipPath: 'inset(-20% 100% -20% 0)' }, { clipPath: 'inset(-20% 0% -20% 0)', duration: 0.2 }, 0.02)
       .to('.nb__big--a', { xPercent: -8, duration: 0.4 }, 0)

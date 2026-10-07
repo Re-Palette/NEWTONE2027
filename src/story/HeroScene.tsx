@@ -8,7 +8,6 @@ import sliceRight from '../assets/story/hero-slice-right-copy.webp';
 import sliceCircle from '../assets/story/hero-slice-circle.webp';
 import heroLights from '../assets/story/hero-lights.webp';
 import { EXPERIENCE_CATEGORIES } from '../config/site';
-import { Particles } from './parts';
 import { gsap, useSceneMotion } from './motion';
 
 /** 高解像度ディスプレイ・大画面では2倍画像を使う */
@@ -58,28 +57,27 @@ export const HeroScene: React.FC = () => {
       // 進行度0 = 参考画像そのもの。スクロールに合わせて光が動き出す
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
+        scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: true },
       });
       tl.to('.hero__desk .hero__media', { scale: 1.06, yPercent: -2.5, duration: 1 }, 0)
-        .fromTo('.hero__desk .hero__lights', { opacity: 0, xPercent: -6, yPercent: 4 }, { opacity: 0.75, xPercent: 5, yPercent: -6, duration: 0.7 }, 0)
+        .fromTo('.hero__desk .hero__lights', { autoAlpha: 0, xPercent: -6, yPercent: 4 }, { autoAlpha: 0.75, xPercent: 5, yPercent: -6, duration: 0.7 }, 0)
         .fromTo('.hero__desk .hero__sheen-band', { xPercent: 0 }, { xPercent: -68.75, duration: 0.55 }, 0.04)
-        .fromTo('.hero__desk .hero__glow', { opacity: 0 }, { opacity: 0.3, duration: 0.25, yoyo: true, repeat: 1 }, 0.18)
-        .fromTo('.hero__desk .particles--near', { opacity: 0, yPercent: 6 }, { opacity: 1, yPercent: -26, duration: 1 }, 0)
-        .fromTo('.hero__desk .particles--far', { opacity: 0, yPercent: 2 }, { opacity: 0.8, yPercent: -10, duration: 1 }, 0)
+        .set('.hero__desk .hero__sheen', { autoAlpha: 0 }, 0.6)
         .to('.hero__desk .hero__scroll', { opacity: 0, y: 12, duration: 0.08 }, 0)
-        .fromTo('.hero__desk .hero__veil:not(.hero__veil--solid)', { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.55)
-        // 最後は Scene 02 と同じネイビー一色になり、継ぎ目なく次へ
-        .fromTo('.hero__desk .hero__veil--solid', { opacity: 0 }, { opacity: 1, duration: 0.18 }, 0.82);
+        // ネイビーが下からせり上がり、最後は Scene 02 と同じ色一色になって継ぎ目なく次へ（transform のみ）
+        .fromTo('.hero__desk .hero__veil', { autoAlpha: 1, yPercent: 0 }, { yPercent: -100, duration: 0.45 }, 0.55)
+        // 完全に覆われたら下の層は描画しない
+        .set('.hero__desk .hero__stage', { autoAlpha: 0 }, 0.999);
       return;
     }
     // スマートフォン：ピン留めせず、画面外へ抜ける間だけ穏やかに動かす
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: 0.3 },
+      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
     });
     tl.to('.poster__center-media', { scale: 1.1, yPercent: 6 }, 0)
       .fromTo('.hero__poster .hero__sheen-band', { xPercent: 0 }, { xPercent: -68.75 }, 0)
-      .fromTo('.hero__poster .hero__lights', { opacity: 0 }, { opacity: 0.65 }, 0)
+      .fromTo('.hero__poster .hero__lights', { autoAlpha: 0 }, { autoAlpha: 0.65 }, 0)
       .to('.poster__top', { yPercent: -18 }, 0)
       .to('.poster__bottom', { yPercent: -10 }, 0)
       .to('.poster__scroll', { opacity: 0 }, 0);
@@ -106,17 +104,13 @@ export const HeroScene: React.FC = () => {
                 decoding="async"
                 draggable={false}
               />
-              <div className="hero__glow" style={maskStyle} aria-hidden="true" />
               <div className="hero__sheen" style={maskStyle} aria-hidden="true">
                 <div className="hero__sheen-band" />
               </div>
             </div>
             <div className="hero__lights" style={{ backgroundImage: `url(${heroLights})` }} aria-hidden="true" />
-            <Particles count={26} seed={7} className="particles particles--far" />
-            <Particles count={14} seed={31} className="particles particles--near" />
           </div>
           <div className="hero__veil" aria-hidden="true" />
-          <div className="hero__veil hero__veil--solid" aria-hidden="true" />
           <a className="hero__scroll" href="#about">
             <span>SCROLL</span>
             <ScrollMark />

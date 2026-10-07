@@ -15,7 +15,7 @@ export const ExperienceScene: React.FC = () => {
         gsap.fromTo(
           item.querySelector('.exp__item-word'),
           { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: 0.3 } },
+          { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: true } },
         );
       });
       return;
@@ -32,7 +32,7 @@ export const ExperienceScene: React.FC = () => {
 
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: 0.3 },
+      scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: true },
     });
     tl.fromTo('.exp__head', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 0);
 

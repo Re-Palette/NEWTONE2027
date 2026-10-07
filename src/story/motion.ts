@@ -1,7 +1,9 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import type { RefObject } from 'react';
+import { useEffect, type RefObject } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -37,3 +39,24 @@ export function useSceneMotion(scope: RefObject<HTMLElement | null>, setup: Setu
 }
 
 export { gsap, ScrollTrigger };
+
+/**
+ * 慣性スクロール（Lenis）。GSAP の ticker で1フレームに1回だけ更新し、ScrollTrigger と同期させる。
+ * - タッチ操作はネイティブの慣性スクロールのまま（Lenis の既定）
+ * - prefers-reduced-motion: reduce のときは使わない
+ * - ページ内リンク（#about など）も Lenis で滑らかに移動
+ */
+export function useSmoothScroll() {
+  useEffect(() => {
+    if (window.matchMedia(MQ_REDUCE).matches) return;
+    const lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1, anchors: true, autoRaf: false });
+    lenis.on('scroll', ScrollTrigger.update);
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+    return () => {
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+    };
+  }, []);
+}

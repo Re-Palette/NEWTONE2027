@@ -11,9 +11,11 @@ import { NextBeautyScene } from './story/NextBeautyScene';
 import { BrandsScene } from './story/BrandsScene';
 import { ExperienceScene } from './story/ExperienceScene';
 import { EntryScene } from './story/EntryScene';
-import { ScrollTrigger } from './story/motion';
+import { ScrollTrigger, useSmoothScroll } from './story/motion';
 
 export default function App() {
+  useSmoothScroll();
+
   // フォント・画像の読み込みでレイアウトが変わったら、スクロール位置の計算をやり直す
   useEffect(() => {
     const refresh = () => ScrollTrigger.refresh();

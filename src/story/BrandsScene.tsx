@@ -52,7 +52,7 @@ export const BrandsScene: React.FC = () => {
     gsap.fromTo(
       '.brands__head > *',
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.brands__head', start: 'top 90%', end: 'top 55%', scrub: 0.3 } },
+      { opacity: 1, y: 0, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: '.brands__head', start: 'top 90%', end: 'top 55%', scrub: true } },
     );
 
     const track = scope.querySelector<HTMLElement>('.brands__track');
@@ -74,7 +74,7 @@ export const BrandsScene: React.FC = () => {
         start: 'top top',
         end: () => `+=${Math.max(distance(), window.innerHeight * 0.6)}`,
         pin: true,
-        scrub: 0.3,
+        scrub: true,
         invalidateOnRefresh: true,
       },
     });
