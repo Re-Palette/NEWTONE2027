@@ -1248,8 +1248,9 @@ html.is-motion .brand-card {
   background: #0f1559;
 }
 
+/* 1カテゴリーあたり1画面ぶんのスクロール（7カテゴリー + ピン留め1画面） */
 html.is-motion .experience {
-  height: 460vh;
+  height: 800vh;
 }
 
 .experience .scene__bg {
@@ -1328,10 +1329,9 @@ html.is-motion .exp__mobile {
   line-height: 1;
   white-space: nowrap;
   letter-spacing: 0.01em;
-  background: linear-gradient(180deg, #ffffff 30%, #d9d0ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  /* background-clip:text はクリップ/transform アニメーションと組み合わせると描画されないことがあるため単色に */
+  color: #f8f5ff;
+  text-shadow: 0 0 60px rgba(196, 170, 255, 0.35);
   will-change: clip-path, transform;
 }
 
@@ -1410,10 +1410,8 @@ html.is-motion .exp__mobile {
   font-family: var(--f-display);
   font-size: clamp(48px, 15vw, 96px);
   line-height: 1;
-  background: linear-gradient(90deg, #fff 0%, var(--hue) 140%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #f8f5ff;
+  text-shadow: 0 0 40px color-mix(in srgb, var(--hue) 45%, transparent);
 }
 
 .exp__item-copy {

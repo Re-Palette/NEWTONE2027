@@ -5,6 +5,15 @@ import { gsap, useSceneMotion } from './motion';
 const pad = (n: number) => String(n).padStart(2, '0');
 const TOTAL = EXPERIENCE_CATEGORIES.length;
 
+/** 切り替えにかける長さ（1カテゴリー=1単位のうち） */
+const SWITCH = 0.5;
+/** クリップは同じ書式で統一（Anton の字形が切れないよう上下左右に余白を持たせる） */
+const CLIP_SHOWN = 'inset(-25% -5% -25% -5%)';
+const CLIP_BELOW = 'inset(125% -5% -25% -5%)';
+const CLIP_ABOVE = 'inset(-25% -5% 125% -5%)';
+const ITEM_ACTIVE = { opacity: 1, color: '#ff4fa3', x: -10 };
+const ITEM_IDLE = { opacity: 0.5, color: '#ffffff', x: 0 };
+
 /** SCENE 05 — POPUP EXPERIENCE：HERO右側のカテゴリー表記を発展させ、スクロールで切り替える */
 export const ExperienceScene: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
@@ -14,8 +23,8 @@ export const ExperienceScene: React.FC = () => {
       gsap.utils.toArray<HTMLElement>('.exp__item').forEach((item) => {
         gsap.fromTo(
           item.querySelector('.exp__item-word'),
-          { clipPath: 'inset(0 100% 0 0)' },
-          { clipPath: 'inset(0 0% 0 0)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: true } },
+          { clipPath: 'inset(-20% 100% -20% 0%)' },
+          { clipPath: 'inset(-20% 0% -20% 0%)', ease: 'none', scrollTrigger: { trigger: item, start: 'top 88%', end: 'top 55%', scrub: true } },
         );
       });
       return;
@@ -27,31 +36,42 @@ export const ExperienceScene: React.FC = () => {
     const items = gsap.utils.toArray<HTMLElement>('.exp__list li');
     const orbs = gsap.utils.toArray<HTMLElement>('.exp__orb');
 
-    gsap.set([...words.slice(1), ...copies.slice(1), ...nums.slice(1)], { autoAlpha: 0 });
-    gsap.set(items[0], { opacity: 1, color: '#ff4fa3', x: -10 });
+    // 状態はすべて明示する（逆スクロール・再訪問・途中からの読み込みでも同じ見た目に戻る）
+    gsap.set(words, { clipPath: CLIP_BELOW, yPercent: 35 });
+    gsap.set(words[0], { clipPath: CLIP_SHOWN, yPercent: 0 });
+    gsap.set(copies, { autoAlpha: 0, y: 20 });
+    gsap.set(copies[0], { autoAlpha: 1, y: 0 });
+    gsap.set(nums, { autoAlpha: 0 });
+    gsap.set(nums[0], { autoAlpha: 1 });
+    gsap.set(items, ITEM_IDLE);
+    gsap.set(items[0], ITEM_ACTIVE);
+    gsap.set(orbs, { opacity: 0 });
+    gsap.set(orbs[0], { opacity: 1 });
 
+    // 1カテゴリー = 1単位。各単位の前後 1/4 で切り替え、残り半分は静止して読める時間にする
     const tl = gsap.timeline({
-      defaults: { ease: 'none' },
+      defaults: { ease: 'none', immediateRender: false },
       scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom bottom', scrub: true },
     });
-    tl.fromTo('.exp__head', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3 }, 0);
+    tl.fromTo('.exp__head', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, immediateRender: true }, 0);
 
-    EXPERIENCE_CATEGORIES.forEach((cat, i) => {
-      if (i === 0) return;
-      const at = i;
-      // 前のカテゴリーは上へ抜け、次のカテゴリーが下からマスクで立ち上がる
-      tl.to(words[i - 1], { clipPath: 'inset(0 0 100% 0)', yPercent: -60, duration: 0.5 }, at)
-        .fromTo(words[i], { autoAlpha: 1, clipPath: 'inset(100% 0 0 0)', yPercent: 20 }, { clipPath: 'inset(0% 0 0 0)', yPercent: 0, duration: 0.5, immediateRender: false }, at + 0.1)
-        .to(copies[i - 1], { autoAlpha: 0, y: -20, duration: 0.25 }, at)
-        .fromTo(copies[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3, immediateRender: false }, at + 0.25)
-        .to(nums[i - 1], { autoAlpha: 0, duration: 0.1 }, at + 0.2)
-        .fromTo(nums[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.1, immediateRender: false }, at + 0.2)
-        .to(items[i - 1], { opacity: 0.5, color: '#ffffff', x: 0, duration: 0.3 }, at)
-        .to(items[i], { opacity: 1, color: '#ff4fa3', x: -10, duration: 0.3 }, at)
-        .to(orbs[i - 1], { opacity: 0, duration: 0.6 }, at)
-        .fromTo(orbs[i], { opacity: 0 }, { opacity: 1, duration: 0.6, immediateRender: false }, at);
-    });
-    tl.to({}, { duration: 0.6 });
+    for (let i = 1; i < TOTAL; i++) {
+      const at = i - SWITCH / 2;
+      const ease = 'power2.inOut';
+      // 前の単語は上へ抜け、同時に次の単語が下から立ち上がる（中央が空になる瞬間を作らない）
+      tl.fromTo(words[i - 1], { clipPath: CLIP_SHOWN, yPercent: 0 }, { clipPath: CLIP_ABOVE, yPercent: -35, duration: SWITCH, ease }, at)
+        .fromTo(words[i], { clipPath: CLIP_BELOW, yPercent: 35 }, { clipPath: CLIP_SHOWN, yPercent: 0, duration: SWITCH, ease }, at)
+        .fromTo(copies[i - 1], { autoAlpha: 1, y: 0 }, { autoAlpha: 0, y: -20, duration: SWITCH * 0.5 }, at)
+        .fromTo(copies[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: SWITCH * 0.5 }, at + SWITCH * 0.5)
+        .fromTo(nums[i - 1], { autoAlpha: 1 }, { autoAlpha: 0, duration: SWITCH * 0.3 }, at + SWITCH * 0.35)
+        .fromTo(nums[i], { autoAlpha: 0 }, { autoAlpha: 1, duration: SWITCH * 0.3 }, at + SWITCH * 0.35)
+        .fromTo(items[i - 1], ITEM_ACTIVE, { ...ITEM_IDLE, duration: SWITCH }, at)
+        .fromTo(items[i], ITEM_IDLE, { ...ITEM_ACTIVE, duration: SWITCH }, at)
+        .fromTo(orbs[i - 1], { opacity: 1 }, { opacity: 0, duration: SWITCH }, at)
+        .fromTo(orbs[i], { opacity: 0 }, { opacity: 1, duration: SWITCH }, at);
+    }
+    // 全体の長さを TOTAL 単位にそろえる（最後のカテゴリーも同じだけ静止）
+    tl.to({}, { duration: 0.001 }, TOTAL - 0.001);
   });
 
   return (
