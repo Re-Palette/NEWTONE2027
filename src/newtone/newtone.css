@@ -1,0 +1,805 @@
+/*
+ * NEWTONE 2027 — same styles as the NEWTONE page on the ARQO site (Re-Palette/-ARQO-HP, src/components/newtone).
+ * Every rule is scoped under .nt; "long pinned motion" is a media query and keyframes carry an nt- prefix.
+ * This file holds the tokens, header, CTA, hero and footer; the scenes after the hero live in scenes.css.
+ */
+/* =========================================================
+   NEWTONE 2027 — design tokens
+   色は参考ビジュアルから抽出（Deep Navy → Midnight → Electric Blue → Lavender → Violet → Neon Pink）
+   ========================================================= */
+.nt {
+  --c-deep: #070b2e;
+  --c-navy: #0d1452;
+  --c-midnight: #19206c;
+  --c-electric: #4f6dff;
+  --c-lavender: #bdb8f6;
+  --c-violet: #a35cf0;
+  --c-pink: #ff4fa3;
+  --c-white: #f7f4ff;
+
+  --grad-cta: linear-gradient(90deg, #fb6cb8 0%, #d362dc 34%, #a267f0 66%, #7f93f6 100%);
+  --grad-line: linear-gradient(90deg, #ff4fa3 0%, #c45ae9 55%, #6f8bff 100%);
+
+  --f-serif-en: 'Cormorant Garamond', 'Times New Roman', serif;
+  --f-sans-en: 'Jost', 'Zen Kaku Gothic New', sans-serif;
+  --f-display: 'Anton', 'Bebas Neue', Impact, sans-serif;
+  --f-script: 'Kaushan Script', cursive;
+  --f-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+  --f-ja: 'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif;
+
+  /* 参考画像(1672px幅)上の1pxを画面幅に換算した単位 */
+  --u: calc(100vw / 1672);
+  --vh: 100vh;
+  --header-h: clamp(60px, calc(88 * var(--u)), 110px);
+}
+
+@supports (height: 100svh) {
+  .nt { --vh: 100svh; }
+}
+
+.nt {
+  --stage-x: 0px;
+}
+
+/* 横長画面：ヘッダーもHERO画像（ステージ）と同じ座標系で配置し、どの画面比でも参考画像の位置関係を保つ */
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) {
+  .nt {
+    /* cover が基本。左右は切らず、上下は 4.5% 以内（上部の空き領域とSCROLL下の余白の範囲）までしか切らない */
+    --stage-w: min(max(100vw, var(--vh) * 1.7768), 100vw, var(--vh) * 1.86);
+    --stage-x: calc((100vw - var(--stage-w)) / 2);
+    --u: calc(var(--stage-w) / 1672);
+  }
+}
+
+.nt {
+  background: var(--c-deep);
+  -webkit-text-size-adjust: 100%;
+}
+
+.nt {
+  margin: 0;
+  background: var(--c-deep);
+  color: var(--c-white);
+  font-family: var(--f-ja);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.nt ::selection {
+  background: var(--c-pink);
+  color: #fff;
+}
+
+.nt .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nt .char {
+  display: inline-block;
+}
+
+.nt .eyebrow {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: clamp(10px, 0.78vw, 13px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 255, 0.78);
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.nt .eyebrow::before {
+  content: '';
+  width: 2.6em;
+  height: 1px;
+  background: var(--grad-line);
+}
+
+.nt .accent-pink {
+  color: var(--c-pink);
+}
+
+/* ---------- CTA (ENTRY / JOIN と同じデザイン言語) ---------- */
+.nt .cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6em;
+  padding: 0 1.5em 0 2.6em;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.78);
+  background: var(--grad-cta);
+  color: #fff;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 26px rgba(248, 93, 179, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: box-shadow 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+  cursor: pointer;
+}
+
+.nt .cta:hover {
+  box-shadow: 0 10px 34px rgba(196, 90, 233, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  filter: brightness(1.06);
+}
+
+.nt .cta:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.nt .cta__arrow {
+  width: 1.9em;
+  height: auto;
+  flex: none;
+  transition: transform 0.35s ease;
+}
+
+.nt .cta:hover .cta__arrow {
+  transform: translateX(4px);
+}
+
+.nt .cta[aria-disabled='true'] {
+  cursor: default;
+  filter: saturate(0.75);
+  opacity: 0.82;
+}
+
+.nt .cta[aria-disabled='true']:hover {
+  transform: none;
+  filter: saturate(0.75);
+}
+
+/* =========================================================
+   HEADER — 参考画像の座標(1672px基準)に合わせて配置
+   ========================================================= */
+.nt .site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: var(--header-h);
+  color: #fff;
+  transition: background 0.5s ease;
+}
+
+.nt .site-header::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  right: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  bottom: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.nt .site-header.is-solid {
+  background: linear-gradient(180deg, rgba(9, 13, 52, 0.9), rgba(9, 13, 52, 0.78));
+}
+
+/* スマートフォンのポスター（ヒーロー）の上では、デザインどおり区切り線を出さない */
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) {
+  .nt .site-header::after {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .nt .site-header.is-solid::after {
+    opacity: 1;
+  }
+}
+
+.nt .site-logo {
+  position: absolute;
+  left: calc(var(--stage-x) + max(16px, calc(60 * var(--u))));
+  top: 50%;
+  transform: translateY(-41%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.nt .site-logo__name {
+  font-family: var(--f-serif-en);
+  font-weight: 400;
+  font-size: max(21px, calc(34 * var(--u)));
+  letter-spacing: 0;
+}
+
+.nt .site-logo__year {
+  margin-top: 0.36em;
+  font-family: var(--f-sans-en);
+  font-weight: 400;
+  font-size: max(9.5px, calc(13 * var(--u)));
+  letter-spacing: 0.04em;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum' 1;
+}
+
+.nt .site-nav {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 各項目の中心を参考画像のx座標(--x)に合わせる */
+.nt .site-nav a {
+  position: absolute;
+  left: calc(var(--stage-x) + var(--x) * var(--u));
+  top: calc(46 * var(--u));
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: max(10.5px, calc(13.6 * var(--u)));
+  letter-spacing: 0.18em;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.4em 0 0.4em 0.18em;
+}
+
+.nt .site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0.2em;
+  bottom: 0;
+  height: 1px;
+  background: var(--grad-line);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nt .site-nav a:hover::after,
+.nt .site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nt .site-header .cta--header {
+  position: absolute;
+  right: calc(var(--stage-x) + max(16px, calc(57 * var(--u))));
+  top: calc(24 * var(--u));
+  height: max(36px, calc(51 * var(--u)));
+  min-width: calc(238 * var(--u));
+  font-size: max(10.5px, calc(13.6 * var(--u)));
+  padding: 0 calc(20 * var(--u)) 0 calc(44 * var(--u));
+}
+
+.nt .menu-toggle {
+  display: none;
+}
+
+.nt .mobile-menu {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .nt .site-nav {
+    display: none;
+  }
+
+  .nt .site-logo {
+    transform: translateY(-50%);
+  }
+
+  .nt .site-header .cta--header {
+    top: 50%;
+    right: 64px;
+    transform: translateY(-50%);
+    height: 36px;
+    min-width: 0;
+    padding: 0 12px 0 18px;
+    gap: 0.9em;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+  }
+
+  .nt .menu-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    /* デザインどおり、枠のない 3 本線（押せる範囲は 38px のまま） */
+    border: 0;
+    background: none;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .nt .menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: currentColor;
+    box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .nt .menu-toggle[aria-expanded='true'] span {
+    box-shadow: none;
+    transform: rotate(45deg);
+  }
+
+  .nt .menu-toggle[aria-expanded='true'] span::after {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(-90deg);
+  }
+
+  .nt .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: calc(var(--header-h) + 24px) 32px 40px;
+    background:
+      radial-gradient(120% 70% at 100% 0%, rgba(163, 92, 240, 0.35), transparent 60%),
+      radial-gradient(90% 60% at 0% 100%, rgba(255, 79, 163, 0.25), transparent 60%),
+      rgba(9, 13, 52, 0.94);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s;
+  }
+
+  .nt .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nt .mobile-menu a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    font-family: var(--f-sans-en);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.28em;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .nt .site-header .cta--header {
+    padding: 0 10px 0 14px;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* =========================================================
+   SCENE 01 — HERO
+   ========================================================= */
+.nt .hero {
+  position: relative;
+  background: var(--c-navy);
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .hero {
+  height: 210vh;
+}
+}
+
+.nt .hero__sticky {
+  position: sticky;
+  top: 0;
+  height: var(--vh);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* デスクトップ：参考画像を重要要素が切れない範囲で全面表示 */
+.nt .hero__desk {
+  position: absolute;
+  inset: 0;
+  --stage-h: calc(var(--stage-w) * 0.56280);
+  --stage-top: calc((var(--vh) - var(--stage-h)) * 0.6);
+}
+
+.nt .hero__desk:not([data-gap]) .hero__fill {
+  display: none;
+}
+
+.nt .hero__fill {
+  position: absolute;
+  inset: -4%;
+  background-position: center;
+  background-size: cover;
+}
+
+.nt .hero__stage {
+  position: absolute;
+  left: 50%;
+  top: var(--stage-top);
+  width: var(--stage-w);
+  height: var(--stage-h);
+  margin-left: calc(var(--stage-w) / -2);
+}
+
+.nt .hero__desk[data-gap='y'] .hero__stage {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+
+.nt .hero__desk[data-gap='x'] .hero__stage {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+
+.nt .hero__media {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 46%;
+  will-change: transform;
+}
+
+.nt .hero__img {
+  object-fit: cover;
+}
+
+/* <picture> は PC 版 / スマホ版の画像の出し分けのためだけ。レイアウトには関わらせない */
+.nt .hero__media > picture,
+.nt .poster__media > picture {
+  display: contents;
+}
+
+.nt .hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* NEWTONE / 2027 の文字部分だけに走るホログラムの光沢 */
+.nt .hero__sheen {
+  --sheen: linear-gradient(
+    104deg,
+    transparent 0%,
+    transparent 36%,
+    rgba(255, 120, 196, 0.32) 43%,
+    rgba(190, 160, 255, 0.4) 48%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(130, 170, 255, 0.38) 53%,
+    rgba(255, 120, 196, 0.24) 58%,
+    transparent 64%,
+    transparent 100%
+  );
+  position: absolute;
+  left: 21.232%;
+  top: 38.789%;
+  width: 57.715%;
+  height: 45.165%;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 光の帯は transform だけで動かす（マスク内の再描画を発生させない） */
+.nt .hero__sheen-band {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320%;
+  height: 100%;
+  background: var(--sheen);
+  will-change: transform;
+}
+
+
+.nt .hero__lights {
+  position: absolute;
+  inset: -12% -8%;
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.nt .particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* HEROの粒子は参考画像の完成形を崩さないよう初期状態では非表示（スクロールで出現） */
+.nt .hero .particles {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.nt .particles i {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 170, 225, 0.55) 35%, transparent 70%);
+}
+
+/* 高さ2画面ぶんのグラデーション。下に隠れた状態から transform で持ち上げる */
+.nt .hero__veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 200%;
+  background: linear-gradient(180deg, rgba(13, 20, 82, 0) 0%, rgba(13, 20, 82, 0.75) 22%, var(--c-navy) 48%, var(--c-navy) 100%);
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.nt .hero__scroll {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - var(--stage-w) * 0.0096);
+  top: min(calc(var(--stage-top) + var(--stage-h) * 0.9447), calc(var(--vh) - 50px));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(4 * var(--u));
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: max(10px, calc(13.4 * var(--u)));
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+
+.nt .hero__scroll svg {
+  width: max(10px, calc(14 * var(--u)));
+  height: auto;
+}
+
+.nt .hero__scroll .scroll-line {
+  animation: nt-scroll-hint 2.4s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+  transform-origin: 50% 0;
+}
+
+@keyframes nt-scroll-hint {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nt .hero__scroll .scroll-line { animation: none; }
+}
+
+/* スマートフォン / 縦長画面：縦長ポスター（public/newtone/hero-sp.webp）をそのまま表示 */
+.nt .hero__poster {
+  display: none;
+}
+
+@media not all and (min-width: 768px) and (min-aspect-ratio: 6/5) {
+  .nt .hero__desk {
+    display: none;
+  }
+
+  .nt .hero__sticky {
+    position: relative;
+    height: auto;
+    min-height: 0;
+  }
+
+  .nt .hero__poster {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--c-navy);
+  }
+}
+
+.nt .poster__media {
+  position: relative;
+  /* 縦長の画面では横幅いっぱい。横に広いタブレットでは中央に置き、左右はポスターの色でなじませる */
+  width: min(100%, calc(var(--vh) * 0.5628));
+  margin: 0 auto;
+  aspect-ratio: 941 / 1672;
+  transform-origin: 50% 40%;
+  will-change: transform;
+}
+
+.nt .poster__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nt .poster__media .hero__lights {
+  opacity: 0;
+}
+
+/* 下端を次のセクションの紺になじませる */
+.nt .hero__poster::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 14%;
+  background: linear-gradient(180deg, transparent, var(--c-navy));
+  pointer-events: none;
+}
+
+.nt .poster__scroll-hit {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 72%;
+  width: 22%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+}
+
+.nt .poster__scroll-hit:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   Shared scene shell
+   ========================================================= */
+.nt .scene {
+  position: relative;
+  background: var(--c-navy);
+}
+
+.nt .scene__sticky {
+  position: relative;
+  min-height: var(--vh);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 768px) and (min-aspect-ratio: 6/5) and (prefers-reduced-motion: no-preference) {
+
+.nt.nt .scene--pin > .scene__sticky {
+  position: sticky;
+  top: 0;
+  height: var(--vh);
+}
+}
+
+.nt .scene__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.nt .wave {
+  /* 光の画像は黒背景→透明へ変換済み（screen合成やマスクを使わず、通常合成で軽く描画） */
+  position: absolute;
+  background-size: 100% 100%;
+  background-position: center;
+  will-change: transform;
+  pointer-events: none;
+}
+
+
+/* ---------- shared: brush underline / sp-only break ---------- */
+.nt .sp-br {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .nt .sp-br {
+    display: inline;
+  }
+}
+
+.nt .brush-underline {
+  position: absolute;
+  left: -6%;
+  bottom: -0.12em;
+  width: 118%;
+  height: 0.42em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ---------- footer ---------- */
+.nt .site-footer {
+  position: relative;
+  padding: 48px max(24px, 6vw) 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--c-deep);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nt .site-footer .site-logo {
+  position: static;
+  transform: none;
+}
+
+.nt .site-footer .site-logo__name {
+  font-size: 34px;
+}
+
+.nt .site-footer .site-logo__year {
+  font-size: 14px;
+}
+
+.nt .site-footer__tag {
+  font-family: var(--f-sans-en);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+}
+
+.nt .site-footer__copy {
+  width: 100%;
+  margin: 8px 0 0;
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(247, 244, 255, 0.5);
+}
+
+
+/* ---------- フォント（Google Fonts を index.html で読み込み） ---------- */
+.nt {
+  --f-serif-en: 'Cormorant Garamond', 'Times New Roman', serif;
+  --f-sans-en: 'Jost', 'Zen Kaku Gothic New', sans-serif;
+  --f-display: 'Anton', Impact, sans-serif;
+  --f-script: 'Kaushan Script', cursive;
+  --f-mincho: 'Shippori Mincho', 'Hiragino Mincho ProN', serif;
+  --f-ja: 'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif;
+  font-feature-settings: normal;
+}
+
+/* NEWTONE のページではページ全体の地色もそろえる（オーバースクロール時の白抜け防止） */
+html:has(.nt),
+html:has(.nt) body {
+  background: #070b2e;
+}
+
+/* 主催クレジット */
+.nt .site-footer__arqo {
+  margin-top: 18px;
+  font-family: var(--f-sans-en);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 255, 0.72);
+}
+

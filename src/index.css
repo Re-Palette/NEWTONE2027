@@ -1,116 +1,44 @@
 @import "tailwindcss";
 
+/*
+ * ページ全体の土台。NEWTONE 本体のスタイルは src/newtone/*.css（すべて .nt 配下）。
+ * ここには ARQO サイト（Re-Palette/-ARQO-HP の globals.css）のうち、
+ * NEWTONE ページにも効いているものだけを同じ値で置いている。
+ */
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: auto;
+  }
+
   body {
-    font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
-    background-color: #F8F9FA;
-    color: #18181B;
+    overflow-x: clip;
+  }
+
+  /* キーボード操作時のフォーカス表示（細い白線） */
+  :focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
   }
 }
 
-.font-bebas {
-  font-family: 'Bebas Neue', sans-serif;
-}
-
-.font-cinzel {
-  font-family: 'Cinzel', serif;
-}
-
-.font-script {
-  font-family: 'Kaushan Script', 'Caveat', cursive;
-}
-
-.font-mincho {
-  font-family: 'Shippori Mincho', serif;
-}
-
-.font-syne {
-  font-family: 'Syne', sans-serif;
-}
-
-.font-zen {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-}
-
-/* Bold Typography Theme Utilities */
-.tracking-tighter-extra {
-  letter-spacing: -0.06em;
-}
-
-.tracking-widest-extra {
-  letter-spacing: 0.4em;
-}
-
-.vertical-text {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-}
-
-.text-outline {
-  -webkit-text-stroke: 1.5px #18181B;
-  color: transparent;
-}
-
-.text-outline-thick {
-  -webkit-text-stroke: 2.5px #18181B;
-  color: transparent;
-}
-
-.text-outline-subtle {
-  -webkit-text-stroke: 1px rgba(24, 24, 27, 0.25);
-  color: transparent;
-}
-
-/* Custom refined effects for light & luminous exhibition theme */
-.glow-card {
-  box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.05), 0 0 15px -2px rgba(226, 232, 240, 0.6);
-}
-
-.glow-card-hover:hover {
-  box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.08), 0 0 20px -2px rgba(203, 213, 225, 0.7);
-}
-
-.hologram-border {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(236, 72, 153, 0.2), rgba(56, 189, 248, 0.25));
-}
-
-.prism-badge {
-  background: linear-gradient(135deg, #F8FAFC, #EEF2F6);
-  border: 1px solid rgba(203, 213, 225, 0.8);
-}
-
-/* Subtle particle animation */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(1deg);
+/* 視差効果を減らす設定では、ホバー等のトランジションも即時に */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
-  }
+/* 低電力端末向けの軽量表示（src/newtone/motion.ts で html[data-perf="lite"] を付与） */
+html[data-perf="lite"] *,
+html[data-perf="lite"] *::before,
+html[data-perf="lite"] *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
-
-.animate-float-slow {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-/* Vertical Japanese text support */
-.writing-vertical {
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-}
-
