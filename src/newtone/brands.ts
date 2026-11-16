@@ -2,9 +2,8 @@
  * 参加ブランドのデータ。
  * 出展が確定したブランドのみ追加してください。空配列の間は「COMING SOON」の枠が表示されます。
  *
- * 画像は src/assets/brands/ に置き、import して指定するのがおすすめです:
- *   import fooLogo from '../assets/brands/foo-logo.png';
- *   { id: 'foo', name: 'FOO', concept: '...', logo: fooLogo, image: fooProduct }
+ * 画像は public/newtone/brands/ に置き、パスで指定してください:
+ *   { id: 'foo', name: 'FOO', concept: '...', logo: '/newtone/brands/foo-logo.png', image: '/newtone/brands/foo.jpg' }
  */
 
 export interface Brand {
