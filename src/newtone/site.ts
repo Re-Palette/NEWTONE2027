@@ -38,9 +38,12 @@ export const SITE: SiteConfig = {
   access: {
     venue: null,
     address: null,
-    schedule: null,
+    schedule: '8月中旬 開催予定',
   },
-  news: [],
+  news: [
+    { date: '2026.11.16', title: '8月中旬の開催を予定しています。会場は決定次第お知らせします。' },
+    { date: '2026.11.16', title: 'インフルエンサーとのイベントなども企画中です。' },
+  ],
 };
 
 /** x: 参考ビジュアル(1672px幅)上での各項目の中心座標 */
