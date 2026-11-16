@@ -2,12 +2,12 @@ import React, { useRef } from 'react';
 const heroBlur = '/newtone/hero-blur.webp';
 const waveB = '/newtone/wave-b.webp';
 const crowd = '/newtone/crowd.webp';
-import { SITE } from './site';
+import { CONTACT_HREF, SITE } from './site';
 import { SiteFooter } from './SiteFooter';
 import { ArrowRight, BrushUnderline, Particles, SplitChars } from './parts';
 import { gsap, revealOnce, useSceneMotion } from './motion';
 
-const contactHref = SITE.contact.entryUrl ?? (SITE.contact.email ? `mailto:${SITE.contact.email}` : null);
+const contactHref = CONTACT_HREF;
 
 /**
  * SCENE 08 — ENTRY / JOIN ＋ フッター

@@ -46,6 +46,9 @@ export const SITE: SiteConfig = {
   ],
 };
 
+/** 参加・お問い合わせの窓口（フォームURL、なければメール）。未設定なら null */
+export const CONTACT_HREF = SITE.contact.entryUrl ?? (SITE.contact.email ? `mailto:${SITE.contact.email}` : null);
+
 /**
  * 上部ナビ＝各ページ。x: 参考ビジュアル(1672px幅)上での各項目の中心座標。
  * ja / lead は各ページの見出しで使う（確定している内容だけを書くこと）。

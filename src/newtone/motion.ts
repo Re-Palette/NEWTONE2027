@@ -48,8 +48,13 @@ function isLiteDevice() {
 
 let activeLenis: Lenis | null = null;
 
-/** ページ移動時に先頭へ戻す（慣性スクロール中でも即座に） */
-export function scrollToTop() {
+/** 先頭へ戻す。ページ移動時は即座に、同じページ内（ロゴ等）では慣性スクロールでなめらかに */
+export function scrollToTop(smooth = false) {
+  // Lenis が無い（視差効果を減らす設定）ときは常に即座に
+  if (smooth && activeLenis) {
+    activeLenis.scrollTo(0, { duration: 1.2 });
+    return;
+  }
   activeLenis?.scrollTo(0, { immediate: true, force: true });
   window.scrollTo(0, 0);
 }

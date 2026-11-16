@@ -12,7 +12,7 @@ import { EntryScene } from './EntryScene';
 import { PageHero } from './PageHero';
 import { PageNext } from './PageNext';
 import { SiteFooter } from './SiteFooter';
-import { NAV_LINKS, SITE } from './site';
+import { CONTACT_HREF, NAV_LINKS, SITE } from './site';
 import { ArrowRight } from './parts';
 
 /** 各ページの見出し（英字・日本語は site.ts の NAV_LINKS と共通） */
@@ -70,7 +70,9 @@ export const ProgramPage: React.FC = () => (
     <CategoriesScene />
     <section className="pg-block" aria-labelledby="events-title">
       <p className="eyebrow">Special Events</p>
-      <h2 id="events-title" className="pg-block__title">企画中のイベント</h2>
+      <h2 id="events-title" className="pg-block__title">
+        企画中のイベント
+      </h2>
       <p className="pg-block__text">
         インフルエンサーとのイベントなども企画中です。
         <br />
@@ -108,7 +110,15 @@ export const NewsPage: React.FC = () => (
 
 /** CONTACT は ENTRY 場面（フッター込み）をそのまま使う */
 export const ContactPage: React.FC = () => (
-  <SubPage href="/contact" lead="ご参加や協賛・パートナーについてのお問い合わせはこちらから。" footer={false}>
+  <SubPage
+    href="/contact"
+    lead={
+      CONTACT_HREF
+        ? 'ご参加や協賛・パートナーについてのお問い合わせはこちらから。'
+        : 'ご参加や協賛・パートナーについてのお問い合わせ窓口は、準備が整い次第こちらでご案内します。'
+    }
+    footer={false}
+  >
     <EntryScene />
   </SubPage>
 );

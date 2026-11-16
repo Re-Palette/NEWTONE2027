@@ -25,6 +25,8 @@ export const InfoScene: React.FC<{ part?: 'all' | 'access' | 'news' }> = ({ part
   useSceneMotion(ref, ({ desktop, scope }) => {
     // ページによっては見出し・カード・NEWS のどれかが無いので、あるものだけ動かす
     const has = (sel: string) => scope.querySelector(sel) !== null;
+    // 下層ページでは最初から画面内にあるので、スクロール連動のフェードはかけない（完成形のまま）
+    if (part !== 'all') return;
     if (!desktop) {
       if (has('.inf__head')) revealOnce('.inf__head > *', '.inf__head');
       if (has('.inf__card')) revealOnce('.inf__card', '.inf__card', { y: 50 });

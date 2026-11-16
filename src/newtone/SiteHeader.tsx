@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { NAV_LINKS } from './site';
 import { ArrowRight } from './parts';
-import { ScrollTrigger } from './motion';
+import { ScrollTrigger, scrollToTop } from './motion';
 
 export const SiteHeader: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
@@ -30,6 +30,11 @@ export const SiteHeader: React.FC = () => {
   // ページを移ったらメニューは閉じる
   useEffect(() => setOpen(false), [pathname]);
 
+  /** いま開いているページへのリンクは、遷移の代わりに先頭へ戻す */
+  const onNav = (to: string) => () => {
+    setOpen(false);
+    if (to === pathname) scrollToTop(true);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -41,18 +46,18 @@ export const SiteHeader: React.FC = () => {
   return (
     <>
       <header ref={ref} className="site-header">
-        <Link to="/" className="site-logo" aria-label="NEWTONE 2027 トップへ">
+        <Link to="/" className="site-logo" aria-label="NEWTONE 2027 トップへ" onClick={onNav('/')}>
           <span className="site-logo__name">NEWTONE</span>
           <span className="site-logo__year">2027</span>
         </Link>
         <nav className="site-nav" aria-label="メインナビゲーション">
           {NAV_LINKS.map((l) => (
-            <NavLink key={l.label} to={l.href} style={{ ['--x' as string]: l.x }}>
+            <NavLink key={l.label} to={l.href} style={{ ['--x' as string]: l.x }} onClick={onNav(l.href)}>
               {l.label}
             </NavLink>
           ))}
         </nav>
-        <Link to="/contact" className="cta cta--header">
+        <Link to="/contact" className="cta cta--header" onClick={onNav('/contact')}>
           <span>ENTRY / JOIN</span>
           <ArrowRight className="cta__arrow" />
         </Link>
@@ -70,7 +75,7 @@ export const SiteHeader: React.FC = () => {
       <div id="mobile-menu" className={`mobile-menu${open ? ' is-open' : ''}`} aria-hidden={!open}>
         <nav aria-label="モバイルナビゲーション">
           {NAV_LINKS.map((l) => (
-            <NavLink key={l.label} to={l.href} tabIndex={open ? 0 : -1}>
+            <NavLink key={l.label} to={l.href} tabIndex={open ? 0 : -1} onClick={onNav(l.href)}>
               {l.label}
             </NavLink>
           ))}

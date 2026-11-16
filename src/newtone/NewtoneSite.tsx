@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigationType } from 'react-router-dom';
 import { SiteHeader } from './SiteHeader';
 import { ScrollTrigger, scrollToTop, useScrollSync } from './motion';
 import { NAV_LINKS } from './site';
@@ -13,19 +13,27 @@ const BASE_TITLE = 'NEWTONE 2027 — 次世代の美容ブランドPOPUP';
 /** ページを移ったら先頭へ戻し、タイトルを変え、スクロール位置の計算をやり直す */
 function useRouteChange() {
   const { pathname, hash } = useLocation();
+  const navType = useNavigationType();
   const first = useRef(true);
   useEffect(() => {
     const page = NAV_LINKS.find((l) => l.href === pathname);
-    document.title = page ? `${page.label}（${page.ja}）| NEWTONE 2027` : BASE_TITLE;
+    document.title = page
+      ? `${page.label}（${page.ja}）| NEWTONE 2027`
+      : pathname === '/'
+        ? BASE_TITLE
+        : 'ページが見つかりません | NEWTONE 2027';
     if (first.current) {
       first.current = false;
       return;
     }
-    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
-    else scrollToTop();
+    // 戻る・進む（POP）はブラウザが復元する位置のまま。リンクでの移動だけ先頭（または #id）へ
+    if (navType !== 'POP') {
+      if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+      else scrollToTop();
+    }
     const id = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => cancelAnimationFrame(id);
-  }, [pathname, hash]);
+  }, [pathname, hash, navType]);
 }
 
 /**
