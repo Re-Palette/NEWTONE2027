@@ -3,6 +3,7 @@ const heroBlur = '/newtone/hero-blur.webp';
 const waveB = '/newtone/wave-b.webp';
 const crowd = '/newtone/crowd.webp';
 import { SITE } from './site';
+import { SiteFooter } from './SiteFooter';
 import { ArrowRight, BrushUnderline, Particles, SplitChars } from './parts';
 import { gsap, revealOnce, useSceneMotion } from './motion';
 
@@ -92,17 +93,7 @@ export const EntryScene: React.FC = () => {
         </div>
       </div>
 
-      <footer className="site-footer">
-        <a href="#top" className="site-logo" aria-label="NEWTONE 2027 トップへ">
-          <span className="site-logo__name">NEWTONE</span>
-          <span className="site-logo__year">2027</span>
-        </a>
-        <p className="site-footer__tag">
-          DISCOVER. <span className="accent-pink">CONNECT.</span> INSPIRE.
-        </p>
-        <p className="site-footer__copy">© NEWTONE 2027 — by NEXT BEAUTY ENTREPRENEURS.</p>
-        <p className="site-footer__arqo">Organized by ARQO</p>
-      </footer>
+      <SiteFooter />
     </section>
   );
 };

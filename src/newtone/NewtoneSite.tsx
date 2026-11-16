@@ -1,19 +1,40 @@
+import React, { useEffect, useRef } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { SiteHeader } from './SiteHeader';
-import { HeroScene } from './HeroScene';
-import { ManifestoScene, TickerBand } from './ManifestoScene';
-import { ExperienceScene } from './ExperienceScene';
-import { CategoriesScene } from './CategoriesScene';
-import { BrandsScene } from './BrandsScene';
-import { ForYouScene } from './ForYouScene';
-import { InfoScene } from './InfoScene';
-import { EntryScene } from './EntryScene';
-import { useScrollSync } from './motion';
+import { ScrollTrigger, scrollToTop, useScrollSync } from './motion';
+import { NAV_LINKS } from './site';
+import { AboutPage, AccessPage, BrandsPage, ContactPage, HomePage, NewsPage, NotFoundPage, ProgramPage } from './pages';
 import './newtone.css';
 import './scenes.css';
+import './pages.css';
 
-/** NEWTONE 2027 特設サイト。ARQO サイトの /projects/newtone（Re-Palette/-ARQO-HP の src/components/newtone）と同じ内容 */
+const BASE_TITLE = 'NEWTONE 2027 — 次世代の美容ブランドPOPUP';
+
+/** ページを移ったら先頭へ戻し、タイトルを変え、スクロール位置の計算をやり直す */
+function useRouteChange() {
+  const { pathname, hash } = useLocation();
+  const first = useRef(true);
+  useEffect(() => {
+    const page = NAV_LINKS.find((l) => l.href === pathname);
+    document.title = page ? `${page.label}（${page.ja}）| NEWTONE 2027` : BASE_TITLE;
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+    else scrollToTop();
+    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => cancelAnimationFrame(id);
+  }, [pathname, hash]);
+}
+
+/**
+ * NEWTONE 2027 特設サイト。トップは ARQO サイトの /projects/newtone（Re-Palette/-ARQO-HP の src/components/newtone）と同じ内容。
+ * 上部ナビの各項目は下層ページ（/about など）。
+ */
 export function NewtoneSite() {
   useScrollSync();
+  useRouteChange();
   return (
     <div className="nt">
       <a
@@ -24,15 +45,16 @@ export function NewtoneSite() {
       </a>
       <SiteHeader />
       <main id="main">
-        <HeroScene />
-        <ManifestoScene />
-        <TickerBand />
-        <ExperienceScene />
-        <CategoriesScene />
-        <BrandsScene />
-        <ForYouScene />
-        <InfoScene />
-        <EntryScene />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/program" element={<ProgramPage />} />
+          <Route path="/brands" element={<BrandsPage />} />
+          <Route path="/access" element={<AccessPage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
     </div>
   );

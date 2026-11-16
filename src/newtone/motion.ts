@@ -46,6 +46,14 @@ function isLiteDevice() {
   return (nav.hardwareConcurrency ?? 8) <= 4 || (nav.deviceMemory ?? 8) <= 4 || nav.connection?.saveData === true;
 }
 
+let activeLenis: Lenis | null = null;
+
+/** ページ移動時に先頭へ戻す（慣性スクロール中でも即座に） */
+export function scrollToTop() {
+  activeLenis?.scrollTo(0, { immediate: true, force: true });
+  window.scrollTo(0, 0);
+}
+
 /**
  * 慣性スクロール（Lenis。設定は ARQO サイトと同じ）を GSAP の ticker で駆動し、ScrollTrigger と同期させる。
  * フォント・画像の読み込みや bfcache 復帰時に位置を再計算する。
@@ -55,6 +63,7 @@ export function useScrollSync() {
     if (isLiteDevice()) document.documentElement.dataset.perf = 'lite';
     if (window.matchMedia(MQ_REDUCE).matches) return;
     const lenis = new Lenis({ autoRaf: false, lerp: 0.1, anchors: { duration: 1.6 } });
+    activeLenis = lenis;
     const off = lenis.on('scroll', ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
@@ -64,6 +73,7 @@ export function useScrollSync() {
       off();
       gsap.ticker.remove(tick);
       lenis.destroy();
+      if (activeLenis === lenis) activeLenis = null;
     };
   }, []);
 

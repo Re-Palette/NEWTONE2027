@@ -46,14 +46,17 @@ export const SITE: SiteConfig = {
   ],
 };
 
-/** x: 参考ビジュアル(1672px幅)上での各項目の中心座標 */
+/**
+ * 上部ナビ＝各ページ。x: 参考ビジュアル(1672px幅)上での各項目の中心座標。
+ * ja / lead は各ページの見出しで使う（確定している内容だけを書くこと）。
+ */
 export const NAV_LINKS = [
-  { label: 'ABOUT', x: 456, href: '#about' },
-  { label: 'PROGRAM', x: 607, href: '#program' },
-  { label: 'BRANDS', x: 766, href: '#brands' },
-  { label: 'ACCESS', x: 946, href: '#access' },
-  { label: 'NEWS', x: 1088, href: '#news' },
-  { label: 'CONTACT', x: 1235, href: '#contact' },
+  { label: 'ABOUT', x: 456, href: '/about', ja: 'NEWTONEについて' },
+  { label: 'PROGRAM', x: 607, href: '/program', ja: 'プログラム' },
+  { label: 'BRANDS', x: 766, href: '/brands', ja: '参加ブランド' },
+  { label: 'ACCESS', x: 946, href: '/access', ja: '開催概要・アクセス' },
+  { label: 'NEWS', x: 1088, href: '/news', ja: 'お知らせ' },
+  { label: 'CONTACT', x: 1235, href: '/contact', ja: '参加・お問い合わせ' },
 ] as const;
 
 /** 参考ビジュアル右側のカテゴリー表記と同一の並び */
