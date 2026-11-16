@@ -1,7 +1,6 @@
 /*
- * NEWTONE 2027 — ported from Re-Palette/newtone2027 (src/index.css).
- * Every rule is scoped under .nt so it cannot touch the rest of the ARQO site;
- * html.is-motion became a media query and keyframes carry an nt- prefix.
+ * NEWTONE 2027 — same styles as the NEWTONE page on the ARQO site (Re-Palette/-ARQO-HP, src/components/newtone).
+ * Every rule is scoped under .nt; "long pinned motion" is a media query and keyframes carry an nt- prefix.
  * This file holds the tokens, header, CTA, hero and footer; the scenes after the hero live in scenes.css.
  */
 /* =========================================================
@@ -777,8 +776,7 @@
 }
 
 
-/* ---------- ARQO への組み込み ---------- */
-/* フォントは Google Fonts からブラウザで読み込む（src/app/projects/newtone/page.tsx） */
+/* ---------- フォント（Google Fonts を index.html で読み込み） ---------- */
 .nt {
   --f-serif-en: 'Cormorant Garamond', 'Times New Roman', serif;
   --f-sans-en: 'Jost', 'Zen Kaku Gothic New', sans-serif;
@@ -789,11 +787,6 @@
   font-feature-settings: normal;
 }
 
-/* ARQO の .eyebrow の装飾を打ち消す */
-.nt .eyebrow::before {
-  opacity: 1;
-}
-
 /* NEWTONE のページではページ全体の地色もそろえる（オーバースクロール時の白抜け防止） */
 html:has(.nt),
 html:has(.nt) body {
@@ -802,16 +795,11 @@ html:has(.nt) body {
 
 /* 主催クレジット */
 .nt .site-footer__arqo {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.9em;
   margin-top: 18px;
   font-family: var(--f-sans-en);
   font-size: 11px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: rgba(247, 244, 255, 0.72);
-  text-decoration: none;
-  transition: color 0.3s ease;
 }
 
